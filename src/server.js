@@ -9,8 +9,6 @@ const routes = require("./routes") // 'ROUTES/INDEX' toda vez que não se coloca
 
 migrationsRun(); // execução da var q vai na função asyn da pasta e cria um arquivo caso ele não exista
 
-
-
 const app= express();
 app.use(express.json());
 
