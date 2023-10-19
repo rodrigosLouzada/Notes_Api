@@ -2,6 +2,7 @@ const {Router} = require("express");
 
 const userRouter= require("./users.routes"); // se importou o useroutes para importa-lo quando se usar o caminho /users, que redireciona para a pasta
 const notesRouter= require("./notes.routes");
+const tagsRouter = require("./tags.routes");
 
 const routes = Router();
 routes.use("/users", userRouter); // VEM PRA CA  'users' ele que indica a rota que ele importou antes do arquivo q contem o agrupamento de rotas
@@ -9,6 +10,8 @@ routes.use("/users", userRouter); // VEM PRA CA  'users' ele que indica a rota q
 // e o resto que o usuário digitou, já faz o resto
 routes.use("/notes", notesRouter);
 // se importa p o index todo o trabalho de url-controller p aquele caminho
+
+routes.use("/tags", tagsRouter);
 
 module.exports = routes;
 
