@@ -1,4 +1,6 @@
 require("express-async-errors"); // p usar o apperror 
+require("dotenv/config");
+
 const migrationsRun = require("./database/sqlite/migrations"); // anteriormente const database = require("./database/sqlite/")
 const AppError = require("./utils/AppError"); // p importar o apperror e torna-lo conhecido dentro de controller
 
@@ -39,5 +41,5 @@ app.use((error, request, response , next) => {
 });
 
 
-const PORT= 3333;
+const PORT= process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
