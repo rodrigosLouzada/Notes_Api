@@ -4,18 +4,23 @@ const AppError = require("../utils/AppError"); // a classe appError (CLASSE base
 // se houvesse um outro tipo de usuário como professor, teriam arquivos separados de progfessorController e uma classe dentro de appERROR
 //p ele/ O THROW lança um tipo de erro e o catch impediria dele chegar ao erro geral, iria parar ali
 
-const sqliteConnection = require("../database/sqlite"); // se importou a pasta index que faz o arquivo que contém o bando de dados
+const UserRepository = require("../repositories/UserRepository");
+// var de importação q sera instanciada e seus metodos
 // que podem conter várias tabelas, a depender do envio(send) da pagina, e se cria outra tabela aos moldes no arquivos
+// o que faz a var de exe de sql (database) ser inutil no metodo em q se importou/usa repository
 
+const sqliteConnection = require("../database/sqlite"); // se importou a pasta index que faz o arquivo que contém o bando de dados
 // dois caminhos possiveis, ou o controller funciona e roda na server, ou ele da erro nos casos, e instanciado e jogado
 // e por intance of no server, utlizado
+
 
 class UsersController {
     async create(request, response) {
         const {name, email, password}= request.body;
 
-        const database = await sqliteConnection();
-        const checkUserExists = await database.get("SELECT * FROM users WHERE email = (?)" , [email])
+        const userRepository =  new UserRepository();
+
+        const checkUserExists =  await userRepository.findByEmail(email);
 
         if(checkUserExists) {
             throw new AppError("este e-mail já está em uso")
@@ -23,10 +28,7 @@ class UsersController {
 
         const hashedPassword =  await hash(password, 8);
 
-        await database.run(
-            "INSERT INTO users (name, email, password) VALUES(?, ?, ?)" ,
-             [name, email, hashedPassword]
-        );
+        await userRepository.create({ name, email, password: hashedPassword})
 
         return response.status(201).json();
     }
