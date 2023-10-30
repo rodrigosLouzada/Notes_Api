@@ -13,12 +13,17 @@ const sqliteConnection = require("../database/sqlite"); // se importou a pasta i
 // dois caminhos possiveis, ou o controller funciona e roda na server, ou ele da erro nos casos, e instanciado e jogado
 // e por intance of no server, utlizado
 
+const UserCreateService = require("../services/UserCreateService");
+
 
 class UsersController {
     async create(request, response) {
         const {name, email, password}= request.body;
 
-        
+        const userRepository = new UserRepository();
+        const userCreateService = new UserCreateService(userRepository);
+        await userCreateService.execute({name, email, password });
+
 
         return response.status(201).json();
     }
