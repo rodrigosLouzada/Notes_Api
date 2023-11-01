@@ -4,14 +4,14 @@ const AppError = require("../utils/AppError");
 
 
 describe("UserCreateService" , () => {
-    const userRepositoryInMemory = null;
-    const userCreateService = null;
+    let userRepositoryInMemory = null;
+    let userCreateService = null;
 
     beforeEach( () => {
         const userRepositoryInMemory = new UserRepositoryInMemory();
         const userCreateService = new UserCreateService(userRepositoryInMemory);
     })
-    
+
 
     it("user should be create", async () => {
         const user = {
