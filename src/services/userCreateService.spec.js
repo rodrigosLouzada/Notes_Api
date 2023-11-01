@@ -4,6 +4,14 @@ const AppError = require("../utils/AppError");
 
 
 describe("UserCreateService" , () => {
+    const userRepositoryInMemory = null;
+    const userCreateService = null;
+
+    beforeEach( () => {
+        const userRepositoryInMemory = new UserRepositoryInMemory();
+        const userCreateService = new UserCreateService(userRepositoryInMemory);
+    })
+    
 
     it("user should be create", async () => {
         const user = {
@@ -12,10 +20,8 @@ describe("UserCreateService" , () => {
             password : "123"
         };
     
-        const userRepositoryInMemory = new UserRepositoryInMemory()
-        const userCreateService = new UserCreateService(userRepositoryInMemory);
+
         const userCreated =  await userCreateService.execute(user);
-    
         expect(userCreated).toHaveProperty("id");
         
     });
@@ -32,9 +38,6 @@ describe("UserCreateService" , () => {
             email : "usertest@email" ,
             password : "4567"
         }
-
-        const userRepository = new UserRepositoryInMemory();
-        const userCreateService = new UserCreateService(userRepository)
 
         await userCreateService.execute(user1);
         await expect(userCreateService.execute(user2)).rejects.toEqual(new AppError("este e-mail já está em uso"))
