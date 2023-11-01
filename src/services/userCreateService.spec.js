@@ -1,5 +1,7 @@
 const UserCreateService = require("./UserCreateService");
 const UserRepositoryInMemory = require("../repositories/UserRepositoryInMemory");
+const AppError = require("../utils/AppError"); 
+
 
 describe("UserCreateService" , () => {
 
@@ -18,8 +20,24 @@ describe("UserCreateService" , () => {
         
     });
 
-    it("another test" , () => {
-        expect(1).toBe(1)
+    it("user not should be create with exists email" , async () => {
+        const user1 = {
+            name: "user test 1" ,
+            email : "usertest@email" ,
+            password : "12345"
+        }
+
+        const user2 = {
+            name: "user test 2" ,
+            email : "usertest@email" ,
+            password : "4567"
+        }
+
+        const userRepository = new UserRepositoryInMemory();
+        const userCreateService = new UserCreateService(userRepository)
+
+        await userCreateService.execute(user1);
+        await expect(userCreateService.execute(user2)).rejects.toEqual(new AppError("este e-mail já está em uso"))
     })
 })
 
