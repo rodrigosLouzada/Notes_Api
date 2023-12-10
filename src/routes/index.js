@@ -1,10 +1,12 @@
 const {Router} = require("express");
 
+const homeRouter = require("./home.routes");
 const userRouter= require("./users.routes"); // se importou o useroutes para importa-lo quando se usar o caminho /users, que redireciona para a pasta
 const notesRouter= require("./notes.routes");
 const tagsRouter = require("./tags.routes");
 
 const routes = Router();
+routes.use("/home", homeRouter);
 routes.use("/users", userRouter); // VEM PRA CA  'users' ele que indica a rota que ele importou antes do arquivo q contem o agrupamento de rotas
 // não sendo mais necessário o primeiro nome do agrupamento, porque ele já está aqui, só é jogado para o arquivo,
 // e o resto que o usuário digitou, já faz o resto
